@@ -1,0 +1,137 @@
+# DVC ignore file for Gene Variant Analysis Pipeline
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Test files
+tests/
+test_*
+*_test.py
+
+# Documentation
+docs/
+*.md
+README.md
+
+# Git files
+.git/
+.gitignore
+
+# DVC files
+.dvc/
+.dvcignore
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Coverage reports
+htmlcov/
+.coverage
+coverage.xml
+
+# Profiling
+*.prof
+*.lprof
+
+# Large model files (keep only essential)
+models/trained/*.pkl
+models/trained/*.joblib
+models/artifacts/*.pkl
+models/artifacts/*.joblib
+
+# Plot files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.html
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Secrets
+secrets/
+*.key
+*.pem
+*.crt
+.env
+
+# Cache
+.cache/
+cache/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# CI/CD
+.github/
+
+# Configuration files (keep only essential)
+config/local.yaml
+config/local_config.yaml
+
+# Large data files that shouldn't be tracked
+data/raw/*.vcf
+data/raw/*.csv
+data/raw/*.tsv
+data/raw/*.parquet
+data/processed/*.csv
+data/processed/*.parquet
+data/external/*
+data/interim/*
+
+# Keep only essential data files
+!data/raw/sample_*.vcf
+!data/raw/sample_*.csv
+!data/processed/sample_*.csv
