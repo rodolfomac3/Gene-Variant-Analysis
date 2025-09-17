@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
-    {name = "Rodolfo Padilla", email = "rodolfomac3.email@egmail.com"},
+    {name = "Rodolfo Padilla", email = "rodolfomac3@egmail.com"},
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
