@@ -22,7 +22,7 @@ A comprehensive MLOps-enabled pipeline for analyzing genomic variants using mach
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/rodolfopadilla/gene-variant-analysis.git
+git clone https://github.com/rodolfomac3/gene-variant-analysis.git
 cd gene-variant-analysis
 ```
 
