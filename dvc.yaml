@@ -1,0 +1,109 @@
+# DVC pipeline configuration for Gene Variant Analysis
+
+stages:
+  # Data preparation stage
+  prepare_data:
+    cmd: python scripts/prepare_data.py --vcf data/raw/variants.vcf --output data/processed/variants_processed.csv
+    deps:
+    - data/raw/variants.vcf
+    - scripts/prepare_data.py
+    - config/config.yaml
+    outs:
+    - data/processed/variants_processed.csv
+    metrics:
+    - data/processed/data_quality_metrics.json
+    plots:
+    - data/processed/data_quality_plots.html
+
+  # Feature engineering stage
+  extract_features:
+    cmd: python scripts/extract_features.py --input data/processed/variants_processed.csv --output data/processed/features.csv
+    deps:
+    - data/processed/variants_processed.csv
+    - scripts/extract_features.py
+    - src/features/
+    - config/config.yaml
+    params:
+    - features
+    outs:
+    - data/processed/features.csv
+    - data/processed/feature_importance.json
+    plots:
+    - data/processed/feature_distribution.html
+
+  # Model training stage
+  train_model:
+    cmd: python scripts/train.py --features data/processed/features.csv --model-type ${model.type} --output models/trained/
+    deps:
+    - data/processed/features.csv
+    - scripts/train.py
+    - src/models/
+    - src/pipeline/
+    - config/config.yaml
+    params:
+    - model
+    - training
+    outs:
+    - models/trained/model.pkl
+    - models/trained/preprocessor.pkl
+    - models/trained/feature_importance.csv
+    metrics:
+    - models/trained/training_metrics.json
+    plots:
+    - models/trained/training_plots.html
+    - models/trained/roc_curve.png
+    - models/trained/confusion_matrix.png
+
+  # Model evaluation stage
+  evaluate_model:
+    cmd: python scripts/evaluate.py --model models/trained/model.pkl --test-data data/processed/features.csv --output models/evaluation/
+    deps:
+    - models/trained/model.pkl
+    - data/processed/features.csv
+    - scripts/evaluate.py
+    - src/pipeline/
+    - config/config.yaml
+    params:
+    - evaluation
+    outs:
+    - models/evaluation/evaluation_results.json
+    metrics:
+    - models/evaluation/test_metrics.json
+    plots:
+    - models/evaluation/evaluation_plots.html
+    - models/evaluation/feature_importance_eval.png
+
+  # Model inference stage
+  predict:
+    cmd: python scripts/predict.py --model models/trained/model.pkl --data data/raw/new_variants.vcf --output predictions/
+    deps:
+    - models/trained/model.pkl
+    - data/raw/new_variants.vcf
+    - scripts/predict.py
+    - src/pipeline/
+    - config/config.yaml
+    outs:
+    - predictions/predictions.csv
+    - predictions/prediction_probabilities.csv
+    plots:
+    - predictions/prediction_distribution.html
+
+  # Hyperparameter tuning stage (optional)
+  tune_hyperparameters:
+    cmd: python scripts/tune_hyperparameters.py --features data/processed/features.csv --output models/tuned/
+    deps:
+    - data/processed/features.csv
+    - scripts/tune_hyperparameters.py
+    - src/models/
+    - config/config.yaml
+    params:
+    - model
+    - training
+    outs:
+    - models/tuned/best_params.json
+    - models/tuned/tuned_model.pkl
+    metrics:
+    - models/tuned/tuning_metrics.json
+    plots:
+    - models/tuned/optimization_history.html
+    - models/tuned/parameter_importance.html
