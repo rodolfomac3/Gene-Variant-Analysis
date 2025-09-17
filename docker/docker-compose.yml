@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  genomic-analysis:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: genomic-variant-analysis
+    volumes:
+      - ../data:/app/data
+      - ../models:/app/models
+      - ../mlruns:/app/mlruns
+      - ../logs:/app/logs
+    environment:
+      - MLFLOW_TRACKING_URI=file:///app/mlruns
+      - PYTHONPATH=/app
+    ports:
+      - "8000:8000"
+      - "5000:5000"
+    command: ["python", "scripts/train.py", "--vcf", "data/raw/variants.vcf"]
+  
+  mlflow-server:
+    image: python:3.9-slim
+    container_name: mlflow-server
+    volumes:
+      - ../mlruns:/mlruns
+      - ../models:/models
+    ports:
+      - "5001:5000"
+    environment:
+      - BACKEND_STORE_URI=file:///mlruns
+      - ARTIFACT_ROOT=/models
+    command: >
+      bash -c "pip install mlflow && 
+               mlflow server --host 0.0.0.0 --port 5000 
+               --backend-store-uri file:///mlruns 
+               --default-artifact-root /models"
+  
+  postgres:
+    image: postgres:13
+    container_name: genomic-postgres
+    environment:
+      - POSTGRES_DB=genomic_db
+      - POSTGRES_USER=genomic_user
+      - POSTGRES_PASSWORD=genomic_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+  
+  redis:
+    image: redis:6-alpine
+    container_name: genomic-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
