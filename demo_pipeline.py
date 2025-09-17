@@ -15,7 +15,7 @@ sys.path.append('src')
 
 def create_sample_data():
     """Create sample genomic data for demonstration"""
-    print("🧬 Creating Sample Genomic Data...")
+    print("Creating Sample Genomic Data...")
     
     np.random.seed(42)
     n_variants = 1000
@@ -51,7 +51,7 @@ def create_sample_data():
     df.loc[df['pathogenicity'] == 1, 'conservation_score'] = np.random.uniform(0.6, 1.0, df['pathogenicity'].sum())
     df.loc[df['pathogenicity'] == 0, 'conservation_score'] = np.random.uniform(0.0, 0.6, (df['pathogenicity'] == 0).sum())
     
-    print(f"✅ Created dataset with {len(df)} variants")
+    print(f" Created dataset with {len(df)} variants")
     print(f"   - Pathogenic: {df['pathogenicity'].sum()}")
     print(f"   - Benign: {(df['pathogenicity'] == 0).sum()}")
     print(f"   - SNVs: {(df['variant_type'] == 'SNV').sum()}")
@@ -61,7 +61,7 @@ def create_sample_data():
 
 def demonstrate_data_loading():
     """Demonstrate data loading functionality"""
-    print("\n📊 Demonstrating Data Loading...")
+    print("\n Demonstrating Data Loading...")
     
     try:
         from src.data.data_loader import GenomicDataLoader
@@ -72,21 +72,21 @@ def demonstrate_data_loading():
         # Save sample data
         os.makedirs('data/raw', exist_ok=True)
         df.to_csv('data/raw/sample_variants.csv', index=False)
-        print("✅ Sample data saved to data/raw/sample_variants.csv")
+        print(" Sample data saved to data/raw/sample_variants.csv")
         
         # Test data loader
         loader = GenomicDataLoader()
-        print("✅ GenomicDataLoader initialized")
+        print(" GenomicDataLoader initialized")
         
         return df
         
     except Exception as e:
-        print(f"❌ Data loading error: {e}")
+        print(f" Data loading error: {e}")
         return None
 
 def demonstrate_preprocessing():
     """Demonstrate data preprocessing"""
-    print("\n🔧 Demonstrating Data Preprocessing...")
+    print("\n Demonstrating Data Preprocessing...")
     
     try:
         from src.data.preprocessor import GenomicPreprocessor
@@ -98,25 +98,25 @@ def demonstrate_preprocessing():
         
         # Initialize preprocessor
         preprocessor = GenomicPreprocessor()
-        print("✅ GenomicPreprocessor initialized")
+        print(" GenomicPreprocessor initialized")
         
         # Fit and transform
         preprocessor.fit(df)
         processed_df = preprocessor.transform(df)
         
-        print(f"✅ Data preprocessed: {len(processed_df)} variants")
+        print(f" Data preprocessed: {len(processed_df)} variants")
         print(f"   - Original features: {len(df.columns)}")
         print(f"   - Processed features: {len(processed_df.columns)}")
         
         return processed_df
         
     except Exception as e:
-        print(f"❌ Preprocessing error: {e}")
+        print(f" Preprocessing error: {e}")
         return None
 
 def demonstrate_feature_engineering():
     """Demonstrate feature engineering"""
-    print("\n🔬 Demonstrating Feature Engineering...")
+    print("\n Demonstrating Feature Engineering...")
     
     try:
         from src.features.variant_features import VariantFeatureExtractor
@@ -131,23 +131,23 @@ def demonstrate_feature_engineering():
         variant_extractor = VariantFeatureExtractor()
         variant_features = variant_extractor.extract_basic_features(df)
         
-        print(f"✅ Variant features extracted: {len(variant_features)} features")
+        print(f" Variant features extracted: {len(variant_features)} features")
         
         # Test sequence feature extraction
         sequence_extractor = SequenceFeatureExtractor()
         sequence_features = sequence_extractor.extract_motif_features(df)
         
-        print(f"✅ Sequence features extracted: {len(sequence_features)} features")
+        print(f" Sequence features extracted: {len(sequence_features)} features")
         
         return df
         
     except Exception as e:
-        print(f"❌ Feature engineering error: {e}")
+        print(f" Feature engineering error: {e}")
         return None
 
 def demonstrate_ml_training():
     """Demonstrate ML training without XGBoost"""
-    print("\n🤖 Demonstrating ML Training...")
+    print("\n Demonstrating ML Training...")
     
     try:
         from sklearn.ensemble import RandomForestClassifier
@@ -191,7 +191,7 @@ def demonstrate_ml_training():
         # Calculate metrics
         accuracy = accuracy_score(y_test, y_pred)
         
-        print(f"✅ Model trained successfully")
+        print(f" Model trained successfully")
         print(f"   - Accuracy: {accuracy:.3f}")
         print(f"   - Training samples: {len(X_train)}")
         print(f"   - Test samples: {len(X_test)}")
@@ -209,17 +209,17 @@ def demonstrate_ml_training():
         os.makedirs('models', exist_ok=True)
         import joblib
         joblib.dump(model, 'models/demo_model.pkl')
-        print("✅ Model saved to models/demo_model.pkl")
+        print(" Model saved to models/demo_model.pkl")
         
         return model, X_test_scaled, y_test, y_pred, y_proba
         
     except Exception as e:
-        print(f"❌ ML training error: {e}")
+        print(f" ML training error: {e}")
         return None
 
 def demonstrate_evaluation():
     """Demonstrate model evaluation"""
-    print("\n📊 Demonstrating Model Evaluation...")
+    print("\n Demonstrating Model Evaluation...")
     
     try:
         from sklearn.metrics import (
@@ -242,7 +242,7 @@ def demonstrate_evaluation():
         auc = roc_auc_score(y_test, y_proba)
         avg_precision = average_precision_score(y_test, y_proba)
         
-        print(f"✅ Model evaluation completed")
+        print(f" Model evaluation completed")
         print(f"   - Accuracy: {accuracy:.3f}")
         print(f"   - Precision: {precision:.3f}")
         print(f"   - Recall: {recall:.3f}")
@@ -259,12 +259,12 @@ def demonstrate_evaluation():
         return True
         
     except Exception as e:
-        print(f"❌ Evaluation error: {e}")
+        print(f" Evaluation error: {e}")
         return False
 
 def demonstrate_visualization():
     """Demonstrate visualization capabilities"""
-    print("\n📈 Demonstrating Visualization...")
+    print("\n Demonstrating Visualization...")
     
     try:
         import matplotlib.pyplot as plt
@@ -304,19 +304,19 @@ def demonstrate_visualization():
         # Save plot
         os.makedirs('results', exist_ok=True)
         plt.savefig('results/demo_plots.png', dpi=300, bbox_inches='tight')
-        print("✅ Plots saved to results/demo_plots.png")
+        print(" Plots saved to results/demo_plots.png")
         
         plt.close()
         
         return True
         
     except Exception as e:
-        print(f"❌ Visualization error: {e}")
+        print(f" Visualization error: {e}")
         return False
 
 def demonstrate_mlflow():
     """Demonstrate MLflow integration"""
-    print("\n🔬 Demonstrating MLflow Integration...")
+    print("\n Demonstrating MLflow Integration...")
     
     try:
         import mlflow
@@ -344,21 +344,21 @@ def demonstrate_mlflow():
             model, _, _, _, _ = demonstrate_ml_training()
             if model is not None:
                 mlflow.sklearn.log_model(model, "model")
-                print("✅ Model logged to MLflow")
+                print(" Model logged to MLflow")
             
-            print("✅ MLflow experiment created")
+            print(" MLflow experiment created")
             print("   - Run MLflow UI: mlflow ui")
             print("   - View experiments at: http://localhost:5000")
         
         return True
         
     except Exception as e:
-        print(f"❌ MLflow error: {e}")
+        print(f" MLflow error: {e}")
         return False
 
 def main():
     """Main demonstration function"""
-    print("🧬 Genomic Variant Analysis Pipeline - Demo")
+    print(" Genomic Variant Analysis Pipeline - Demo")
     print("=" * 60)
     
     # Run demonstrations
@@ -381,35 +381,35 @@ def main():
             else:
                 results.append((demo_name, False))
         except Exception as e:
-            print(f"❌ {demo_name} failed: {e}")
+            print(f" {demo_name} failed: {e}")
             results.append((demo_name, False))
     
     # Summary
     print("\n" + "=" * 60)
-    print("📊 Demo Results Summary:")
+    print(" Demo Results Summary:")
     
     passed = 0
     for demo_name, result in results:
-        status = "✅ PASS" if result else "❌ FAIL"
+        status = " PASS" if result else " FAIL"
         print(f"   {status} - {demo_name}")
         if result:
             passed += 1
     
-    print(f"\n🎯 Overall: {passed}/{len(results)} demonstrations successful")
+    print(f"\n Overall: {passed}/{len(results)} demonstrations successful")
     
     if passed == len(results):
-        print("\n🎉 All demonstrations completed successfully!")
-        print("\n📋 What You Can Do Next:")
+        print("\n All demonstrations completed successfully!")
+        print("\n What You Can Do Next:")
         print("   1. Add your real VCF data to data/raw/")
         print("   2. Run: python scripts/train.py --vcf data/raw/your_data.vcf")
         print("   3. View MLflow UI: mlflow ui")
         print("   4. Check results in results/ directory")
         print("   5. Make predictions: python scripts/predict.py")
     else:
-        print(f"\n⚠️  {len(results) - passed} demonstrations failed.")
+        print(f"\n⚠  {len(results) - passed} demonstrations failed.")
         print("   Check the errors above and ensure all dependencies are installed.")
     
-    print("\n🔧 To fix XGBoost issues:")
+    print("\n To fix XGBoost issues:")
     print("   brew install libomp")
     print("   pip install xgboost")
 
