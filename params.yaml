@@ -1,0 +1,92 @@
+# DVC parameters for Gene Variant Analysis Pipeline
+
+# Data parameters
+data:
+  vcf_file: "data/raw/variants.vcf"
+  annotation_file: "data/raw/annotations.csv"
+  test_size: 0.2
+  validation_size: 0.1
+  random_state: 42
+
+# Model parameters
+model:
+  type: "xgboost"
+  xgboost:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    subsample: 0.8
+    colsample_bytree: 0.8
+    gamma: 0
+    min_child_weight: 1
+  lightgbm:
+    n_estimators: 100
+    max_depth: 6
+    learning_rate: 0.1
+    num_leaves: 31
+    feature_fraction: 0.8
+    bagging_fraction: 0.8
+    bagging_freq: 1
+    min_child_samples: 5
+  random_forest:
+    n_estimators: 100
+    max_depth: 10
+    min_samples_split: 2
+    min_samples_leaf: 1
+    random_state: 42
+
+# Feature engineering parameters
+features:
+  variant_features:
+    - "chromosome"
+    - "position"
+    - "ref_allele"
+    - "alt_allele"
+    - "variant_type"
+  sequence_features:
+    - "gc_content"
+    - "repeat_content"
+    - "conservation_score"
+  annotation_features:
+    - "gene_name"
+    - "transcript_id"
+    - "consequence"
+    - "impact"
+
+# Preprocessing parameters
+preprocessing:
+  handle_missing: true
+  remove_outliers: false
+  outlier_method: "iqr"
+  outlier_threshold: 1.5
+  scale_features: true
+  scale_method: "standard"
+
+# Training parameters
+training:
+  use_ensemble: false
+  ensemble_type: "voting"
+  base_models: ["xgboost", "lightgbm", "random_forest"]
+  hyperparameter_tuning: false
+  n_trials: 50
+  early_stopping_rounds: 10
+
+# Evaluation parameters
+evaluation:
+  metrics: ["accuracy", "precision", "recall", "f1_score", "roc_auc", "average_precision"]
+  generate_plots: true
+  plot_types: ["confusion_matrix", "roc_curve", "precision_recall_curve", "feature_importance"]
+
+# MLflow parameters
+mlflow:
+  experiment_name: "gene_variant_analysis"
+  tracking_uri: "file:./mlruns"
+  log_artifacts: true
+  log_models: true
+
+# DVC parameters
+dvc:
+  remote: "local"
+  cache_dir: ".dvc/cache"
+  data_dir: "data"
+  models_dir: "models"
