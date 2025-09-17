@@ -165,13 +165,13 @@ If you use this pipeline in your research, please cite:
   title={Gene Variant Analysis Pipeline},
   author={Rodolfo Padilla},
   year={2024},
-  url={https://github.com/rodolfopadilla/gene-variant-analysis}
+  url={https://github.com/rodolfomac3/gene-variant-analysis}
 }
 ```
 
 ## Support
 
-For questions and support, please open an issue on GitHub or contact the maintainers.
+For questions and support, please open an issue on GitHub or contact Rodolfo Padilla @ rodolfo.mac3@gmail.com
 
 ## Changelog
 
